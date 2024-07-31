@@ -1,6 +1,15 @@
-# AutoVD-Python-Playwright
+# AutoVD-Python-Playwright 
 
 AutoVD-Python-Playwright is a Python-based automation framework designed for web and API testing. It leverages Playwright for browser automation and provides a structured approach to creating page objects and test cases.
+
+## Author
+
+```yaml
+Name : Vignesh D
+Location : Chennai, India
+```
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/vigneshdhakshnamoorthy/)
 
 ## Table of Contents
 
@@ -140,3 +149,4 @@ The framework generates two types of reports:
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
