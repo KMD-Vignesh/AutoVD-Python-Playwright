@@ -21,6 +21,7 @@ def test_add_cart_badge_validation(playVD: PlayVD) -> None:
     ).assert_true(condition=main_page.get_product_count_badge() == 3)
 
 
+
 @pytest.mark.vignesh
 @pytest.mark.add_cart
 def test_add_cart_badge_validation_fail(playVD: PlayVD) -> None:
