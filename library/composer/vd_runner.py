@@ -10,9 +10,7 @@ from library.model.vd_config import ConfigVD
 from library.plugin.vd_report import ReportVD
 
 
-
 class RunnerVD:
-
     @staticmethod
     def _pre_cleanup() -> None:
         if ConfigVD.Browser.is_delete_downloads():
@@ -34,16 +32,13 @@ class RunnerVD:
             with open(file=PathVD.conftest_file_path(), mode="w") as file:
                 file.write(multiline_string)
 
-
     @staticmethod
     def _post_cleanup() -> None:
-        PathVD.remove_directory(
-            folder_path=PathVD.project_path(), name_contains="__pycache__"
-        )
+        PathVD.remove_directory(folder_path=PathVD.project_path(), name_contains="__pycache__")
         PathVD.delete_directory(directory_path=PathVD.project_path() / ".pytest_cache")
         if ConfigVD.Pytest.is_delete_conftest():
             PathVD.delete_file(PathVD.conftest_file_path())
-    
+
     @staticmethod
     def _read_failure_rerun_file() -> str:
         failure_json_path: PathVD = PathVD.failure_json_file_path()
@@ -51,8 +46,8 @@ class RunnerVD:
         if failure_json_path.exists() and ConfigVD.Pytest.is_failure_rerun():
             with open(file=PathVD.failure_json_file_path(), mode="r") as f:
                 failure_json = json.load(f)
-        return ' '.join(failure_json)
-    
+        return " ".join(failure_json)
+
     @staticmethod
     def _get_commands(
         allure_result: PathVD,
@@ -66,10 +61,14 @@ class RunnerVD:
             if ConfigVD.Pytest.is_dry_run()
             else ""
         )
-        failure_rerun_command: str = RunnerVD._read_failure_rerun_file() if not ConfigVD.Pytest.is_dry_run() else ""
+        failure_rerun_command: str = (
+            RunnerVD._read_failure_rerun_file() if not ConfigVD.Pytest.is_dry_run() else ""
+        )
         parallel_count: int = ConfigVD.Pytest.get_parallel_count()
         tag_name: str = (
-            ConfigVD.Pytest.get_tag() if not ConfigVD.Pytest.is_dry_run() and not ConfigVD.Pytest.is_failure_rerun() else ""
+            ConfigVD.Pytest.get_tag()
+            if not ConfigVD.Pytest.is_dry_run() and not ConfigVD.Pytest.is_failure_rerun()
+            else ""
         )
 
         output_command: str = "--capture=tee-sys --tb=no"
@@ -78,9 +77,7 @@ class RunnerVD:
         pytest_xml_command: str = f"--junitxml={pytest_xml_report}"
         parallel_command: str = f"--numprocesses {parallel_count}" if parallel_count > 1 else ""
         parallel_group_command: str = (
-            "--dist loadfile"
-            if ConfigVD.Pytest.is_parallel_group_by_file()
-            else "--dist worksteal"
+            "--dist loadfile" if ConfigVD.Pytest.is_parallel_group_by_file() else "--dist worksteal"
         )
         tag_command: str = f"-m {tag_name}" if tag_name else ""
         allure_json_command: str = f"--alluredir={allure_result} --allure-no-capture"
@@ -94,9 +91,7 @@ class RunnerVD:
             browser_command = f"--browser {ConfigVD.Browser.get_default_browser()}"
 
         pytest_command: str = f"pytest {dry_run_command} {failure_rerun_command} {tag_command} {headless_command} {browser_command} {output_command} {allure_json_command} {pytest_html_command} {pytest_json_command} {pytest_xml_command} {parallel_command} {parallel_group_command}"
-        allure_report_command: str = (
-            f"allure generate {allure_result} -o {allure_report} --clean"
-        )
+        allure_report_command: str = f"allure generate {allure_result} -o {allure_report} --clean"
         commands: list[str] = []
         commands.append(pytest_command)
         if ConfigVD.Allure.is_allure_generate() and not ConfigVD.Pytest.is_dry_run():
@@ -104,7 +99,7 @@ class RunnerVD:
             if ConfigVD.Allure.is_allure_open():
                 commands.append(f"allure open {allure_report}")
         return commands
-    
+
     @staticmethod
     def _subprocess_execution(commands: list[str], run_commands: bool = True) -> None:
         if run_commands:
@@ -122,11 +117,9 @@ class RunnerVD:
         matches: list[str] = test_case_pattern.findall(string=content)
         test_case_count: int = len(matches)
         return test_case_count
-    
+
     @staticmethod
-    def _result_report(
-        start_time: str, elapsed_time: timedelta, test_result: dict
-    ) -> None:
+    def _result_report(start_time: str, elapsed_time: timedelta, test_result: dict) -> None:
         is_dry_run: bool = ConfigVD.Pytest.is_dry_run()
         summary_data: dict = test_result["summary"]
         total_seconds = int(elapsed_time.total_seconds())
@@ -139,12 +132,8 @@ class RunnerVD:
             passed=summary_data["passed"],
             failed=summary_data["failed"],
             error=summary_data["error"],
-            skipped=RunnerVD._get_dry_run_count()
-            if is_dry_run
-            else summary_data["skipped"],
-            total=RunnerVD._get_dry_run_count()
-            if is_dry_run
-            else summary_data["total"],
+            skipped=RunnerVD._get_dry_run_count() if is_dry_run else summary_data["skipped"],
+            total=RunnerVD._get_dry_run_count() if is_dry_run else summary_data["total"],
         )
         if not is_dry_run:
             ReportVD.write_trend_json(
@@ -183,9 +172,7 @@ class RunnerVD:
 
         end_time: datetime = datetime.now()
         elapsed_time: timedelta = end_time - time_now
-        test_result: dict[str, dict | set] = ReportVD.read_pytest_json(
-            json_path=pytest_json_report
-        )
+        test_result: dict[str, dict | set] = ReportVD.read_pytest_json(json_path=pytest_json_report)
 
         RunnerVD._result_report(
             start_time=start_time, elapsed_time=elapsed_time, test_result=test_result

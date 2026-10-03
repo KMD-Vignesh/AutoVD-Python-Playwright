@@ -1,9 +1,8 @@
-
 class ValueVD:
     @staticmethod
     def time_out() -> int:
         return 15
-    
+
     @staticmethod
     def time_out_milli_seconds() -> int:
         return 15000
@@ -39,4 +38,3 @@ class ValueVD:
     @staticmethod
     def test_result_d_t_format() -> str:
         return "%d/%m/%y %H:%M:%S"
-

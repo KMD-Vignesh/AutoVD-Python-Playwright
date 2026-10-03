@@ -84,9 +84,7 @@ class PlayVD:
                 self.sleep(seconds=1)
         return False
 
-    def find_element(
-        self, selector: str, timeout: float = ValueVD.time_out()
-    ) -> ElementHandle:
+    def find_element(self, selector: str, timeout: float = ValueVD.time_out()) -> ElementHandle:
         if self.is_present(selector=selector, timeout=timeout):
             return self.get_page().query_selector(selector=selector)
         else:
@@ -119,9 +117,7 @@ class PlayVD:
     def multi_click(
         self, selector: str, click_count: int, timeout: float = ValueVD.time_out()
     ) -> Self:
-        self.find_element(selector=selector, timeout=timeout).click(
-            click_count=click_count
-        )
+        self.find_element(selector=selector, timeout=timeout).click(click_count=click_count)
         return self
 
     def dblclick(self, selector: str, timeout: float = ValueVD.time_out()) -> Self:
@@ -135,9 +131,7 @@ class PlayVD:
     def scroll_into_view_if_needed(
         self, selector: str, timeout: float = ValueVD.time_out()
     ) -> Self:
-        self.find_element(
-            selector=selector, timeout=timeout
-        ).scroll_into_view_if_needed()
+        self.find_element(selector=selector, timeout=timeout).scroll_into_view_if_needed()
         return self
 
     def check(self, selector: str, timeout: float = ValueVD.time_out()) -> Self:
@@ -182,14 +176,10 @@ class PlayVD:
     def is_visible(self, selector: str, timeout: float = ValueVD.time_out()) -> bool:
         return self.find_element(selector=selector, timeout=timeout).is_visible()
 
-    def get_text(
-        self, selector: str, timeout: float = ValueVD.time_out()
-    ) -> str | None:
+    def get_text(self, selector: str, timeout: float = ValueVD.time_out()) -> str | None:
         return self.find_element(selector=selector, timeout=timeout).text_content()
 
-    def get_text_elements(
-        self, selector: str, timeout: float = ValueVD.time_out()
-    ) -> list[str]:
+    def get_text_elements(self, selector: str, timeout: float = ValueVD.time_out()) -> list[str]:
         return [
             element.text_content()
             for element in self.find_elements(selector=selector, timeout=timeout)
@@ -198,9 +188,7 @@ class PlayVD:
     def is_text_in_elements(
         self, selector: str, element_text: str, timeout: int = ValueVD.time_out()
     ) -> bool:
-        return element_text in self.get_text_elements(
-            selector=selector, timeout=timeout
-        )
+        return element_text in self.get_text_elements(selector=selector, timeout=timeout)
 
     def is_text_contains_in_elements(
         self, selector: str, text_contains: str, timeout: int = ValueVD.time_out()
@@ -221,29 +209,23 @@ class PlayVD:
                 return element
         return None
 
-    def fill(
-        self, selector: str, fill_text: str, timeout: float = ValueVD.time_out()
-    ) -> Self:
+    def fill(self, selector: str, fill_text: str, timeout: float = ValueVD.time_out()) -> Self:
         self.find_element(selector=selector, timeout=timeout).fill(value=fill_text)
         return self
 
-    def type(
-        self, selector: str, fill_text: str, timeout: float = ValueVD.time_out()
-    ) -> Self:
+    def type(self, selector: str, fill_text: str, timeout: float = ValueVD.time_out()) -> Self:
         self.find_element(selector=selector, timeout=timeout).type(text=fill_text)
         return self
 
-    def press_key(
-        self, selector: str, key: str, timeout: float = ValueVD.time_out()
-    ) -> Self:
+    def press_key(self, selector: str, key: str, timeout: float = ValueVD.time_out()) -> Self:
         self.find_element(selector=selector, timeout=timeout).press(key=key)
 
     def type_enter(
         self, selector: str, fill_text: str, timeout: float = ValueVD.time_out()
     ) -> Self:
-        return self.type(
-            selector=selector, fill_text=fill_text, timeout=timeout
-        ).press_key(selector=selector, key="Enter")
+        return self.type(selector=selector, fill_text=fill_text, timeout=timeout).press_key(
+            selector=selector, key="Enter"
+        )
 
     def close(self) -> Self:
         self.get_page().close()
@@ -269,9 +251,7 @@ class PlayVD:
     def click_inside_frame(
         self, frame_name: str, selector: str, timeout: float = ValueVD.time_out()
     ) -> Self:
-        self.switch_frame(frame_name=frame_name).click(
-            selector=selector, timeout=timeout
-        )
+        self.switch_frame(frame_name=frame_name).click(selector=selector, timeout=timeout)
         return self
 
     def type_inside_frame(
@@ -302,9 +282,7 @@ class PlayVD:
 
     def download_file(self, selector: str, timeout: float = ValueVD.time_out()) -> str:
         try:
-            with self.get_page().expect_download(
-                timeout=timeout * 1000
-            ) as download_info:
+            with self.get_page().expect_download(timeout=timeout * 1000) as download_info:
                 self.click(selector=selector, timeout=timeout)
         except Exception:
             self.test_fail(failure_message=f"No Download Triggered For - {selector}")

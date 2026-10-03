@@ -4,7 +4,6 @@ from typing import Self
 from library.helper.vd_play import PlayVD
 
 
-
 @dataclass
 class PageVD:
     def __init__(self, playVD: PlayVD) -> None:
@@ -13,7 +12,7 @@ class PageVD:
     def open_app(self, url: str) -> Self:
         self.playVD.open(url=url)
         return self
-    
+
     def log(self, message: str) -> Self:
         self.playVD.log(message=message)
         return self

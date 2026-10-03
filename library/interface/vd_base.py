@@ -35,9 +35,7 @@ def pytest_configure(config):
 @allure.title(test_title="Setup / Teardown")
 @pytest.fixture
 def playVD(request: pytest.FixtureRequest, page: Page) -> PlayVD:  # type: ignore
-    file_path: str = (
-        f"src/tests/{str(object=PathVD(request.node.fspath)).split('src/tests/')[1]}"
-    )
+    file_path: str = f"src/tests/{str(object=PathVD(request.node.fspath)).split('src/tests/')[1]}"
     method_name: str = request.node.name
     full_test_name: str = f"{file_path}::{method_name}"
     logger: logging.Logger = logging.getLogger(name=method_name)

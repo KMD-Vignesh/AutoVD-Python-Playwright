@@ -60,7 +60,7 @@ class ConfigVD:
         @staticmethod
         def is_dry_run() -> bool:
             return ConfigVD.get_config()["Pytest"]["IsDryRun"]
-        
+
         @staticmethod
         def is_failure_rerun() -> bool:
             return ConfigVD.get_config()["Pytest"]["IsFailureRerun"]
